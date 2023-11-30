@@ -1,28 +1,34 @@
 import React, { useEffect, useState } from "react";
-
-// import { getQuestionQuiz } from "../services/api/quiz";
+import { useContext } from "react";
+import { QuizContext } from "../context";
+import { getQuestionQuiz } from "../services/api/quiz";
 import CountDown from "./Countdown";
 import QustionBoard from "./Questionboard";
 
 function StartQuiz() {
-    // const [quizQuestions, setQuizQuestions] = useState([]);
+  const { state } = useContext(QuizContext);
+  const { difficulty, programmingLanguage } = state;
   const [isCountdown, setIsCountdown] = useState(true);
-    const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     getQuestionData();
   }, []);
 
-    const getQuestionData = async () => {
-      setLoading(true);
-    //   try {
-    //     let result = await getQuestionQuiz(category, difficulty);
-    //     setLoading(false);
-    //     setQuizQuestions(result);
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    };
+  const getQuestionData = async () => {
+    setLoading(true);
+    try {
+      let response = await getQuestionQuiz(programmingLanguage, difficulty);
+      setLoading(false);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      return data;
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const setCountDownHandler = (counter) => {
     setIsCountdown(counter);
@@ -36,7 +42,7 @@ function StartQuiz() {
         <QustionBoard
           isLoading={isLoading}
 
-        //   quizQuestions={quizQuestions}
+          //   quizQuestions={quizQuestions}
         />
       )}
     </div>

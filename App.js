@@ -3,11 +3,13 @@ import Dashboard from "./src/components/Dashboard.jsx";
 import StartQuiz from "./src/screen/StartQuiz.jsx"
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { Provider } from "./src/context/index.jsx";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
+    <Provider>
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
@@ -27,6 +29,7 @@ export default function App() {
         />
       </Stack.Navigator>
     </NavigationContainer>
+    </Provider>
   );
 }
 

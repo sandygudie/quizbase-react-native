@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import DropDownPicker from "react-native-dropdown-picker";
+import { useContext } from "react";
+import { QuizContext } from "../context";
 
 function Difficulty() {
+  const { selectedDifficulty} =useContext(QuizContext);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("Easy");
   const [items, setItems] = useState([
     { value: "easy", label: "Easy" },
-    { value: "medium", label: "Intermediate"},
+    { value: "medium", label: "Intermediate" },
     { value: "hard", label: "Expert" },
   ]);
 
@@ -20,6 +23,7 @@ function Difficulty() {
       setItems={setItems}
       listMode="MODAL"
       placeholder="Select Level"
+      onChangeValue={()=> selectedDifficulty(value)}
     />
   );
 }

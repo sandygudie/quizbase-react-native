@@ -6,7 +6,9 @@ import Leaderboard from "../screen/Leaderboard";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { Text } from "react-native";
+
 export default function Dashboard({ navigation }) {
+
   const Tab = createBottomTabNavigator();
   return (
     <NavigationContainer independent={true}>

@@ -9,10 +9,14 @@ import {
 } from "react-native";
 import { Categories } from "../../constants/data";
 import Difficulty from "../components/Difficulty";
+import { useContext } from "react";
+import { QuizContext } from "../context";
+
 const avatar = require("../../assets/images/avatar/baddie.png");
 
 export default function Quiz({ route }) {
   const { navigate } = route.params;
+  const { selectedProgramminglanguage } = useContext(QuizContext);
 
   return (
     <View style={styles.container}>
@@ -28,7 +32,9 @@ export default function Quiz({ route }) {
         <View style={styles.buttonContainer}>
           {Categories.map(({ icon, id, name }) => (
             <Pressable
-              onPress={() => {navigate(),name} }
+              onPress={() => {
+                navigate(), selectedProgramminglanguage(name);
+              }}
               style={({ pressed }) => [
                 {
                   backgroundColor: pressed ? "#E91E63" : "#2c3544",
@@ -63,8 +69,6 @@ const styles = StyleSheet.create({
   },
   quizcontainer: {
     paddingHorizontal: 20,
-    // alignItems: "center",
-    // justifyContent: "center",
   },
   title: {
     fontSize: 20,
@@ -80,8 +84,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     gap: 20,
-    // alignItems: "center",
-    // justifyContent: "center",
   },
 
   button: {
