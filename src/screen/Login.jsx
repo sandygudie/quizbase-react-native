@@ -43,7 +43,8 @@ const styles = StyleSheet.create({
   inputfield: {
     padding: 20,
     backgroundColor: "#ffff",
-    width: 300,
+    width: '90%',
+    maxWidth:500,
     borderColor: "gray",
     borderWidth: 1,
     borderRadius: 5,
@@ -63,3 +64,43 @@ const styles = StyleSheet.create({
     color: "#ffff",
   },
 });
+
+
+
+// <label
+          //   onChange={(e) => onChangeValue(index, e)}
+          //   key={index}
+          //   htmlFor={options}
+          //   className={`px-3 py-2 bg-light-secondary cursor-pointer
+          //    text-base md:text-lg font-bold my-5 rounded-xl
+          //     block ${
+          //       scoreStatus === "" &&
+          //       timer > 0 &&
+          //       "hover:text-primary hover:bg-white"
+          //     } `}
+          // >
+          //   <TextInput
+          //     type="radio"
+          //     id={options}
+          //     value={options}
+          //     name="quiz"
+          //     className="radio-input hidden"
+          //     disabled={scoreStatus !== "" || timer === 0}
+          //   />
+          //   <div className="flex items-center justify-between">
+          //     <div className="flex items-center">
+          //       <p className="flex items-center justify-center bg-white rounded-full px-3 py-1 text-primary mr-3">
+          //         {" "}
+          //         {String.fromCharCode(index + 65)}
+          //       </p>
+          //       <span>{options} </span>
+          //     </div>
+
+          //     {selectedIndex === index &&
+          //       (scoreStatus === "correct" ? (
+          //         <AiFillCheckCircle className="font-bold fill-green-500 text-2xl" />
+          //       ) : scoreStatus === "wrong" ? (
+          //         <AiFillCloseCircle className="font-bold fill-green-500 text-2xl" />
+          //       ) : null)}
+          //   </div>
+          // </label>

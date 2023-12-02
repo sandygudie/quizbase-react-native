@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "column",
-    height: "100vh",
+    height: "100%",
     backgroundColor: "#2c3544",
   },
   countdownText: {

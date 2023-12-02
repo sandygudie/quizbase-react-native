@@ -37,7 +37,6 @@ const reducer = (state, action) => {
 };
 export const Provider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-console.log(state)
   const value = {
     state,
     selectedDifficulty: (difficulty) => {

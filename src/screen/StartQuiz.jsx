@@ -4,27 +4,28 @@ import { QuizContext } from "../context";
 import { getQuestionQuiz } from "../services/api/quiz";
 import CountDown from "./Countdown";
 import QustionBoard from "./Questionboard";
-
+import { View} from "react-native";
 function StartQuiz() {
   const { state } = useContext(QuizContext);
   const { difficulty, programmingLanguage } = state;
   const [isCountdown, setIsCountdown] = useState(true);
-  const [isLoading, setLoading] = useState(false);
+  // const [isLoading, setLoading] = useState(false);
+  const [quizQuestions, setQuizQuestions] = useState([]);
 
   useEffect(() => {
     getQuestionData();
   }, []);
 
   const getQuestionData = async () => {
-    setLoading(true);
+    // setLoading(true);
     try {
       let response = await getQuestionQuiz(programmingLanguage, difficulty);
-      setLoading(false);
+      // setLoading(false);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      return data;
+      setQuizQuestions(data.data);
     } catch (err) {
       console.error(err);
     }
@@ -35,17 +36,13 @@ function StartQuiz() {
   };
 
   return (
-    <div className="">
+    <View className="">
       {isCountdown ? (
         <CountDown isCountdown setCountDownHandler={setCountDownHandler} />
       ) : (
-        <QustionBoard
-          isLoading={isLoading}
-
-          //   quizQuestions={quizQuestions}
-        />
+        <QustionBoard state={state} quizQuestions={quizQuestions} />
       )}
-    </div>
+    </View>
   );
 }
 
