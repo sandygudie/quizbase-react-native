@@ -25,14 +25,6 @@ function CountDown({ isCountdown, setCountDownHandler }) {
   );
 }
 const styles = StyleSheet.create({
-  countdown: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "column",
-    height: "100%",
-    backgroundColor: "#2c3544",
-  },
   countdownText: {
     fontSize: 60,
     fontWeight: "bold",

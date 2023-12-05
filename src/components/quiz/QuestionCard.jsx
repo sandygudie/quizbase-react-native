@@ -134,7 +134,6 @@ const styles = StyleSheet.create({
     fontSize: 25,
     marginVertical: 10,
   },
-
   options: {
     marginVertical: 15,
     padding: 16,

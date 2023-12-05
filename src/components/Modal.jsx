@@ -1,27 +1,38 @@
 import { StyleSheet, View } from "react-native";
-import React, { useEffect, useRef } from "react";
+import React from "react";
+import { Dimensions } from "react-native";
 
-export default function Modal({ handleCloseModal, children }) {
-  const ref = useRef(null);
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (ref.current && !ref.current.contains(event.target)) {
-        handleCloseModal?.();
-      }
-    };
-    window.addEventListener("click", handleClickOutside, true);
-    return () => {
-      window.removeEventListener("click", handleClickOutside, true);
-    };
-  }, []);
+export default function Modal({ children }) {
+
+  // useEffect(() => {
+  //   const handleClickOutside = (event) => {
+  //     if (ref.current && !ref.current.contains(event.target)) {
+  //       handleCloseModal?.();
+  //     }
+  //   };
+  //   window.addEventListener("click", handleClickOutside, true);
+  //   return () => {
+  //     window.removeEventListener("click", handleClickOutside, true);
+  //   };
+  // }, []);
 
   return (
-    <View style={styles.modal_container} ref={ref}>
+    <View style={styles.modal_container} >
       {children}
     </View>
   );
 }
-
+const WindowsHeight = Dimensions.get("window").height;
 const styles = StyleSheet.create({
-  modal_container: {},
+  modal_container: {
+    height: WindowsHeight,
+    backgroundColor: "#3e3d3dcf",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    position: "absolute",
+    top: 0,
+    width: "100%",
+  },
 });

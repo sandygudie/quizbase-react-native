@@ -1,11 +1,12 @@
 import { Text, View, StyleSheet, Pressable } from "react-native";
 import * as Progress from "react-native-progress";
-export default function DisplayScore({ currentScore }) {
+
+export default function DisplayScore({ navigation, currentScore }) {
   return (
     <View style={styles.displayScore}>
       <Text style={styles.scoreText}>Your Score</Text>
       <Progress.Circle
-        progress={currentScore}
+        // progress={1}
         borderColor={"gray"}
         size={200}
         thickness={9}
@@ -17,10 +18,19 @@ export default function DisplayScore({ currentScore }) {
       />
 
       <View style={styles.btnContainer}>
-        <Pressable style={styles.btn} onPress={() => "reload"}>
+        <Pressable
+          style={styles.btn}
+          onPress={() => navigation.navigate("StartQuiz")}
+        >
           <Text style={styles.btnText}>Try Again </Text>
         </Pressable>
-        <Pressable style={styles.btn} onPress={() => "reload"}>
+        <Pressable
+          style={styles.btn}
+          // navigation.navigate('Root', { screen: 'Profile' });
+          onPress={() =>
+            navigation.navigate("Dashboard", { screen: "Leaderboard" })
+          }
+        >
           <Text style={styles.btnText}>Leader Board</Text>
         </Pressable>
       </View>

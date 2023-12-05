@@ -3,15 +3,17 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { useContext } from "react";
 import { QuizContext } from "../../context";
 
-export default function QuizHeader({ pauseQuiz, scoreStatus }) {
+export default function QuizHeader({ navigation, pauseQuiz, scoreStatus }) {
   const { state } = useContext(QuizContext);
   const { difficulty, programmingLanguage } = state;
   return (
     <View style={styles.header}>
       <Pressable
-        // style={styles.arrowIcon}
         onPress={() =>
-          scoreStatus === "finalscore" ? "router.push(" / ")" : pauseQuiz()
+          scoreStatus === "finalscore"
+            ? 
+            navigation.navigate("Dashboard")
+            : pauseQuiz()
         }
       >
         <Text>
@@ -19,12 +21,10 @@ export default function QuizHeader({ pauseQuiz, scoreStatus }) {
         </Text>
       </Pressable>
 
-     
-        <Text style={styles.programmingLanguage}>{programmingLanguage}</Text>
-        <Text style={styles.level}>
-          Level: {difficulty ? difficulty : "Easy"}
-        </Text>
-  
+      <Text style={styles.programmingLanguage}>{programmingLanguage}</Text>
+      <Text style={styles.level}>
+        Level: {difficulty ? difficulty : "Easy"}
+      </Text>
     </View>
   );
 }

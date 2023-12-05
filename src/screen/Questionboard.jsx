@@ -5,32 +5,46 @@ import QuestionCard from "../components/quiz/QuestionCard";
 import DisplayScore from "../components/quiz/DisplayScore";
 import CloseQuiz from "../components/quiz/CloseQuiz";
 import Modal from "../components/Modal";
+import { useContext } from "react";
+import { QuizContext } from "../context";
 
-export default function Questionboard({ quizQuestions }) {
+export default function Questionboard({ navigation }) {
   // let audioElement;
+  const { state } = useContext(QuizContext);
+  const { quizQuestions, error } = state;
 
   const [isOpenModal, setIsOpenModal] = useState(false);
-  let [timer, setTimer] = useState(10);
+  let [timer, setTimer] = useState(4);
   const [currentScore, setCurrentScore] = useState(0);
   let [questionCounter, setQuestionCounter] = useState(0);
   const [status, setStatus] = useState("running");
   const [scoreStatus, setScoreStatus] = useState("");
-
-  // console.log(quizQuestions);
+  if (error) {
+    return (
+      <View style={styles.errorContainer}>
+        <Text style={styles.errorText}>
+          Request Failed! Check Network Connection
+        </Text>
+      </View>
+    );
+  }
   useEffect(() => {
     let interval;
     if (quizQuestions.length) {
+      console.log(status);
       if (status === "running") {
         interval = setInterval(() => {
-          // time up
+          console.log(timer);
           if (timer === 1) {
+            // console.log(setStatus)
             setStatus("stop");
             setScoreStatus("timeup");
             // audioElement = new Audio("images/time-up.wav");
             // audioElement.play();
             setTimeout(() => {
               nextQuestion();
-            }, 2000);
+              setStatus("running");
+            }, 1000);
           }
           setTimer((timer = timer - 1));
         }, 1000);
@@ -48,12 +62,11 @@ export default function Questionboard({ quizQuestions }) {
   const correctAnswerHandler = (currentScore) => {
     setCurrentScore(currentScore);
   };
-  console.log(currentScore);
+
   const nextQuestion = () => {
     setQuestionCounter((questionCounter = questionCounter + 1));
     if (questionCounter < quizQuestions.length) {
-      setTimer(10);
-      setStatus("running");
+      setTimer(4);
       setScoreStatus("");
     } else {
       setStatus("stop");
@@ -76,6 +89,11 @@ export default function Questionboard({ quizQuestions }) {
     setStatus("stop");
   };
 
+  const closeQuiz = () => {
+    setIsOpenModal(false);
+    navigation.navigate("Dashboard");
+  };
+
   const TimeUpComponent = () => {
     return (
       <View>
@@ -86,12 +104,15 @@ export default function Questionboard({ quizQuestions }) {
 
   return (
     <ScrollView style={styles.quiz_container}>
-      <View>
-        <QuizHeader pauseQuiz={pauseQuiz} scoreStatus={scoreStatus} />
-
+      <View style={styles.quizDisplay}>
+        <QuizHeader
+          navigation={navigation}
+          pauseQuiz={pauseQuiz}
+          scoreStatus={scoreStatus}
+        />
         <View>
           {scoreStatus === "finalscore" ? (
-            <DisplayScore currentScore={currentScore} />
+            <DisplayScore navigation={navigation} currentScore={currentScore} />
           ) : quizQuestions.length === 0 ? (
             <Text style={styles.noQuiz}>No Quiz available</Text>
           ) : quizQuestions.length ? (
@@ -102,43 +123,45 @@ export default function Questionboard({ quizQuestions }) {
                 </Text>
               </View>
               {quizQuestions.map((list, i) => {
-                return (
-                  i === questionCounter && (
-                    <QuestionCard
-                      currentScore={currentScore}
-                      quiz={list}
-                      index={i}
-                      key={i}
-                      stopQuiz={stopQuiz}
-                      timer={timer}
-                      nextQuestion={nextQuestion}
-                      correctAnswerHandler={correctAnswerHandler}
-                    />
-                  )
-                );
+                return i === questionCounter ? (
+                  <QuestionCard
+                    currentScore={currentScore}
+                    quiz={list}
+                    index={i}
+                    key={i}
+                    stopQuiz={stopQuiz}
+                    timer={timer}
+                    nextQuestion={nextQuestion}
+                    correctAnswerHandler={correctAnswerHandler}
+                  />
+                ) : null;
               })}
             </>
           ) : scoreStatus === "timeup" ? (
             <TimeUpComponent />
           ) : null}
-          {isOpenModal && (
-            <Modal>
-              <CloseQuiz startQuiz={startQuiz} />
-            </Modal>
-          )}
         </View>
       </View>
+
+      {isOpenModal && status === "pause" && (
+        <Modal>
+          <CloseQuiz closeQuiz={closeQuiz} startQuiz={startQuiz} />
+        </Modal>
+      )}
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   quiz_container: {
-    paddingVertical: 50,
-    paddingHorizontal: 20,
+    color: "white",
     height: "100%",
     backgroundColor: "#2c3544",
-    color: "white",
+  },
+  quizDisplay: {
+    height: "100%",
+    paddingVertical: 50,
+    paddingHorizontal: 20,
   },
   header: {
     display: "flex",
@@ -157,8 +180,9 @@ const styles = StyleSheet.create({
   },
   noQuiz: {
     fontWeight: "bold",
-    fontSize: 20,
+    fontSize: 16,
     color: "white",
+    marginVertical: 50,
   },
   info: {
     display: "flex",
@@ -183,5 +207,19 @@ const styles = StyleSheet.create({
     fontSize: 25,
     textAlign: "center",
     fontWeight: "bold",
+  },
+  errorContainer: {
+    color: "white",
+    height: "100%",
+    backgroundColor: "#2c3544",
+  },
+  errorText: {
+    height: "100%",
+    fontSize: 20,
+    display: "flex",
+    alignItems: "center",
+    flexDirection: "row",
+    color: "white",
+    justifyContent: "center",
   },
 });
