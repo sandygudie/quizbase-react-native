@@ -31,12 +31,9 @@ export default function Questionboard({ navigation }) {
   useEffect(() => {
     let interval;
     if (quizQuestions.length) {
-      console.log(status);
       if (status === "running") {
         interval = setInterval(() => {
-          console.log(timer);
           if (timer === 1) {
-            // console.log(setStatus)
             setStatus("stop");
             setScoreStatus("timeup");
             // audioElement = new Audio("images/time-up.wav");
